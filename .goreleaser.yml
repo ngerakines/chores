@@ -27,8 +27,6 @@ archives:
       - LICENSE
       - README*
       - CHANGELOG*
-      - templates
-      - static
 
 checksum:
   name_template: 'checksums.txt'
