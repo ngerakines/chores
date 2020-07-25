@@ -7,8 +7,6 @@ before:
 
 builds:
   - binary: chores
-    flags:
-      - -tags=prod
     main: ./cmd/chores/main.go
     env:
       - CGO_ENABLED=1
