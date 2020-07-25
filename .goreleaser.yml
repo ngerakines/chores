@@ -7,6 +7,8 @@ before:
 
 builds:
   - binary: chores
+    flags:
+      - -tags=prod
     main: ./cmd/chores/main.go
     env:
       - CGO_ENABLED=1
@@ -25,6 +27,8 @@ archives:
       - LICENSE
       - README*
       - CHANGELOG*
+      - templates
+      - static
 
 checksum:
   name_template: 'checksums.txt'

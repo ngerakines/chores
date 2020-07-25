@@ -6,20 +6,18 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
-	"text/template"
 	"time"
 )
 
 // NewServer is neat.
 func NewServer(logger *log.Logger, db *sql.DB, config *Config) (func() error, func(error)) {
 
-	fs := http.FileServer(http.Dir("./static"))
+	fs := http.FileServer(AssetFile())
 
 	mux := http.NewServeMux()
 
-	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux.Handle("/static/", fs)
 	mux.Handle("/login", &loginHandler{persons: config.People, logger: logger})
 	mux.Handle("/log", &logHandler{logger: logger, db: db})
 	mux.Handle("/", &mainHandler{logger: logger, db: db})
@@ -46,7 +44,7 @@ func renderTemplate(logger *log.Logger, w http.ResponseWriter, r *http.Request, 
 	lp := filepath.Join("templates", "layout.html")
 	fp := filepath.Join("templates", fmt.Sprintf("%s.html", target))
 
-	info, err := os.Stat(fp)
+	info, err := AssetInfo(fp)
 	if err != nil {
 		logger.Println("unable to find template", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -65,7 +63,7 @@ func renderTemplate(logger *log.Logger, w http.ResponseWriter, r *http.Request, 
 		},
 	}
 
-	tmpl, err := template.New("").Funcs(funcs).ParseFiles(lp, fp)
+	tmpl, err := NewTemplate("", Asset).Funcs(funcs).ParseFiles(lp, fp)
 	if err != nil {
 		logger.Println("error parsing template", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
