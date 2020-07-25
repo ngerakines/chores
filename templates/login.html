@@ -1,0 +1,17 @@
+{{define "title"}}Chores - Login{{end}}
+{{define "body"}}
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <form method="POST" action="/login">
+            <div class="mb-3">
+              <label for="inputName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="inputName" aria-describedby="inputNameHelp" name="name" required>
+              <div id="inputNameHelp" class="form-text">Who are you?</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+{{end}}
