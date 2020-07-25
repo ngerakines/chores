@@ -1,0 +1,45 @@
+project_name: chores
+
+before:
+
+  hooks:
+    - go mod download
+
+builds:
+  - binary: chores
+    env:
+      - CGO_ENABLED=1
+    ldflags:
+      - -w
+      - -s
+      - -extldflags '-static'
+
+archives:
+  - format: zip
+    files:
+      - LICENSE
+      - README*
+      - CHANGELOG*
+
+checksum:
+  name_template: 'checksums.txt'
+
+signs:
+  - signature: "${artifact}_sig"
+    artifacts: all
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^assets:'
+
+release:
+  github:
+    owner: ngerakines
+    name: chores
