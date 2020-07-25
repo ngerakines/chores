@@ -25,6 +25,9 @@ jobs:
     - name: Get dependencies
       run: go mod download
 
+    - name: Generate stuff
+      run: go generate .
+
     - name: Build
       run: go build -v ./cmd/chores/main.go
 
