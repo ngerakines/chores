@@ -14,8 +14,6 @@ RUN mkdir -p /app
 RUN cp /usr/share/zoneinfo/US/Eastern /etc/localtime
 RUN echo "US/Eastern" >  /etc/timezone
 WORKDIR /app
-# COPY --from=chores-build /src/static /app/static
-# COPY --from=chores-build /src/templates /app/templates
 COPY --from=chores-build /go/bin/chores /go/bin/
 EXPOSE 8080
 STOPSIGNAL SIGINT
